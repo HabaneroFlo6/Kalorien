@@ -1,0 +1,145 @@
+<link rel="stylesheet" href="https://www.fitrechner.de/assets/css/share.css" /><form action="https://www.fitrechner.de/kalorienverbrauch/USC12020/Joggen+%28Durchschnittswert%29?menge=60&groesse=170&gewicht=80&alter=17&sex=m&submit=" id="fitrechner" target="_blank"><table><caption><a href="https://www.fitrechner.de/kalorienverbrauch/USC12020/Joggen+%28Durchschnittswert%29?menge=60&groesse=170&gewicht=80&alter=17&sex=m&submit=">Kalorienverbrauch Joggen (Durchschnittswert)</a></caption><tr><td>Dauer</td><td><input type="number" name="menge" min="0" required="" value="60"></td><td>Minuten</td></tr><tr><td>Größe</td><td><input type="number" name="groesse" min="0" required=""></td><td>cm</td></tr><tr><td>Gewicht</td><td><input type="number" name="gewicht" min="0" required=""></td><td>kg</td></tr><tr><td>Alter</td><td><input type="number" name="alter" min="0" required=""></td><td>Jahre</td></tr><tr><td>Anrede</td><td colspan="2"><select name="sex" required=""><option value="">bitte auswählen</option><option value="w">Frau</option><option value="m">Herr</option></select></td></tr><tr><td colspan="3"><button>kcal Verbrauch berechnen</button></td></tr></table></form>
+
+
+
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editable Table</title>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+    .deleteButton {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 6px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        margin: 2px;
+        cursor: pointer;
+        border-radius: 3px;
+    }
+    .addButton {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    .clearButton {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    .lastColumn {
+        width: 50px; /* Breite der letzten Spalte */
+    }
+</style>
+</head>
+<body>
+<h2>Editierbare Tabelle</h2>
+<table id="editableTable">
+    <thead>
+        <tr>
+            <th>Datum</th>
+            <th>Sport</th>
+            <th>Dauer</th>
+            <th>Verbrannte Kalorien</th>
+            <th>Derzeitiges Gewicht</th>
+            <th class="lastColumn"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Hier werden die gespeicherten Daten eingefügt -->
+    </tbody>
+</table>
+<button class="addButton" onclick="addRow()">Zeile hinzufügen</button>
+<button class="clearButton" onclick="clearTable()">Tabelle leeren</button>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Beim Laden der Seite die gespeicherten Daten abrufen und in die Tabelle einfügen
+    populateTable();
+});
+
+function addRow() {
+    var table = document.getElementById('editableTable').getElementsByTagName('tbody')[0];
+    var newRow = table.insertRow();
+    var cell1 = newRow.insertCell(0);
+    var cell2 = newRow.insertCell(1);
+    var cell3 = newRow.insertCell(2);
+    var cell4 = newRow.insertCell(3);
+    var cell5 = newRow.insertCell(4);
+    var cell6 = newRow.insertCell(5);
+    cell1.contentEditable = "true";
+    cell2.contentEditable = "true";
+    cell3.contentEditable = "true";
+    cell4.contentEditable = "true";
+    cell5.contentEditable = "true";
+    cell6.innerHTML = '<button class="deleteButton" onclick="deleteRow(this)">Löschen</button>';
+}
+
+function deleteRow(button) {
+    var row = button.parentNode.parentNode;
+    row.parentNode.removeChild(row);
+}
+
+function populateTable() {
+    var savedData = localStorage.getItem('tableData');
+    if (savedData) {
+        var table = document.getElementById('editableTable').getElementsByTagName('tbody')[0];
+        table.innerHTML = savedData;
+    }
+}
+
+function clearTable() {
+    if (confirm('Sind Sie sicher, dass Sie die gesamte Tabelle löschen möchten?')) {
+        if (confirm('Diese Aktion kann nicht rückgängig gemacht werden. Sind Sie sicher?')) {
+            var table = document.getElementById('editableTable').getElementsByTagName('tbody')[0];
+            table.innerHTML = '';
+            localStorage.removeItem('tableData');
+        }
+    }
+}
+
+// Beim Verlassen der Seite die Tabelle speichern
+window.addEventListener('beforeunload', function() {
+    var table = document.getElementById('editableTable').getElementsByTagName('tbody')[0];
+    localStorage.setItem('tableData', table.innerHTML);
+});
+</script>
+</body>
+</html>
